@@ -39,5 +39,10 @@ namespace Programming.DAL
             db.Languages.Remove(db.Languages.Find(ID));
             db.SaveChanges();
         }
+
+        public bool IsThereAnyLanguage(int ID)
+        {
+            return db.Languages.Any(x => x.ID == ID);
+        }
     }
 }

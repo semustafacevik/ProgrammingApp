@@ -14,8 +14,7 @@ namespace Programming.API.Controllers
 
         public HttpResponseMessage Get()
         {
-            var languages = languagesDAL.GetAllLanguages();
-            return Request.CreateResponse(HttpStatusCode.OK, languages);
+            return Request.CreateResponse(HttpStatusCode.OK, languagesDAL.GetAllLanguages());
         }
 
         public HttpResponseMessage Get(int ID)
@@ -29,25 +28,37 @@ namespace Programming.API.Controllers
         }
 
         public HttpResponseMessage Post(Languages language)
-        {         
+        {
             if (ModelState.IsValid)
-            {
-                var newLanguage = languagesDAL.CreateLanguage(language);
-                return Request.CreateResponse(HttpStatusCode.Created, newLanguage);
-            }
+                return Request.CreateResponse(HttpStatusCode.Created, languagesDAL.CreateLanguage(language));
+
             else
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
-        public Languages Put(int ID, Languages language)
+        public HttpResponseMessage Put(int ID, Languages language)
         {
-            return languagesDAL.UpdateLanguage(ID, language);
+            //id?
+            if (!languagesDAL.IsThereAnyLanguage(ID))
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No such record found!");
+            //model state
+            else if (!ModelState.IsValid)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            //ok
+            else
+                return Request.CreateResponse(HttpStatusCode.OK, languagesDAL.UpdateLanguage(ID, language));
         }
 
-        public void Delete(int ID)
+        public HttpResponseMessage Delete(int ID)
         {
-            languagesDAL.DeleteLanguage(ID);
-        }
+            if (!languagesDAL.IsThereAnyLanguage(ID))
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No such record found!");
 
+            else
+            {
+                languagesDAL.DeleteLanguage(ID);
+                return Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+        }
     }
 }
