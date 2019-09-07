@@ -12,52 +12,59 @@ namespace Programming.API.Controllers
     {
         LanguagesDAL languagesDAL = new LanguagesDAL();
 
+        /*
         public HttpResponseMessage Get()
         {
             return Request.CreateResponse(HttpStatusCode.OK, languagesDAL.GetAllLanguages());
         }
+        */
 
-        public HttpResponseMessage Get(int ID)
+        public IHttpActionResult Get()
+        {
+            return Ok(languagesDAL.GetAllLanguages());
+        }
+
+        public IHttpActionResult Get(int ID)
         {
             var language = languagesDAL.GetLanguageByID(ID);
 
             if (language == null)
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No such record found!");
+                return NotFound();
 
-            return Request.CreateResponse(HttpStatusCode.OK, language);
+            return Ok(language);
         }
 
-        public HttpResponseMessage Post(Languages language)
+        public IHttpActionResult Post(Languages language)
         {
             if (ModelState.IsValid)
-                return Request.CreateResponse(HttpStatusCode.Created, languagesDAL.CreateLanguage(language));
+                return CreatedAtRoute("DefaultApi", new { id = language.ID }, languagesDAL.CreateLanguage(language));
 
             else
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                return BadRequest(ModelState);
         }
 
-        public HttpResponseMessage Put(int ID, Languages language)
+        public IHttpActionResult Put(int ID, Languages language)
         {
             //id?
             if (!languagesDAL.IsThereAnyLanguage(ID))
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No such record found!");
+                return NotFound();
             //model state
             else if (!ModelState.IsValid)
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                return BadRequest(ModelState);
             //ok
             else
-                return Request.CreateResponse(HttpStatusCode.OK, languagesDAL.UpdateLanguage(ID, language));
+                return Ok(languagesDAL.UpdateLanguage(ID, language));
         }
 
-        public HttpResponseMessage Delete(int ID)
+        public IHttpActionResult Delete(int ID)
         {
             if (!languagesDAL.IsThereAnyLanguage(ID))
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No such record found!");
+                return NotFound();
 
             else
             {
                 languagesDAL.DeleteLanguage(ID);
-                return Request.CreateResponse(HttpStatusCode.NoContent);
+                return Ok();
             }
         }
     }
