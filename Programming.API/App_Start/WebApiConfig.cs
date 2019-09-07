@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Programming.API.Attributes;
 
 namespace Programming.API
 {
@@ -13,6 +14,7 @@ namespace Programming.API
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.Filters.Add(new ApiExceptionAttribute());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
