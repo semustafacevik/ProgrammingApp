@@ -12,14 +12,20 @@ namespace Programming.API.Controllers
     {
         LanguagesDAL languagesDAL = new LanguagesDAL();
 
-        public IEnumerable<Languages> Get()
+        public HttpResponseMessage Get()
         {
-            return languagesDAL.GetAllLanguages();
+            var languages = languagesDAL.GetAllLanguages();
+            return Request.CreateResponse(HttpStatusCode.OK, languages);
         }
 
-        public Languages Get(int ID)
+        public HttpResponseMessage Get(int ID)
         {
-            return languagesDAL.GetLanguageByID(ID);
+            var language = languagesDAL.GetLanguageByID(ID);
+
+            if (language == null)
+                return Request.CreateResponse(HttpStatusCode.NotFound, "No such record found!");
+
+            return Request.CreateResponse(HttpStatusCode.OK, language);
         }
 
         public Languages Post(Languages language)
