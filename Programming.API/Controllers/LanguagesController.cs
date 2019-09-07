@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Programming.API.Controllers
 {
@@ -18,12 +19,13 @@ namespace Programming.API.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, languagesDAL.GetAllLanguages());
         }
         */
-
+        [ResponseType(typeof(IEnumerable<Languages>))]
         public IHttpActionResult Get()
         {
             return Ok(languagesDAL.GetAllLanguages());
         }
 
+        [ResponseType(typeof(Languages))]
         public IHttpActionResult Get(int ID)
         {
             var language = languagesDAL.GetLanguageByID(ID);
@@ -34,6 +36,7 @@ namespace Programming.API.Controllers
             return Ok(language);
         }
 
+        [ResponseType(typeof(Languages))]
         public IHttpActionResult Post(Languages language)
         {
             if (ModelState.IsValid)
@@ -43,6 +46,7 @@ namespace Programming.API.Controllers
                 return BadRequest(ModelState);
         }
 
+        [ResponseType(typeof(Languages))]
         public IHttpActionResult Put(int ID, Languages language)
         {
             //id?
@@ -55,7 +59,7 @@ namespace Programming.API.Controllers
             else
                 return Ok(languagesDAL.UpdateLanguage(ID, language));
         }
-
+        
         public IHttpActionResult Delete(int ID)
         {
             if (!languagesDAL.IsThereAnyLanguage(ID))
