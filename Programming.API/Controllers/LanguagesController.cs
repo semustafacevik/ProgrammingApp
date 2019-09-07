@@ -71,5 +71,15 @@ namespace Programming.API.Controllers
                 return Ok();
             }
         }
+
+        public IHttpActionResult GetSearchByName(string name)
+        {
+            return Ok("Name: " + name);
+        }
+
+        public IHttpActionResult GetSearchBySurname(string surname)
+        {
+            return Ok("Surname: " + surname);
+        }
     }
 }

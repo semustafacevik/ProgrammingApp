@@ -12,11 +12,21 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="language" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="founder" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="year" Type="int" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="year" Type="int" Nullable="false" />
           <Property Name="isPopular" Type="bit" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userKey" Type="uniqueidentifier" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="role" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityContainer Name="ProgrammingDBModelStoreContainer">
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -34,7 +44,17 @@
         </EntityType>
         <EntityContainer Name="ProgrammingDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Languages" EntityType="Self.Languages" />
+          <EntitySet Name="Users" EntityType="ProgrammingDBModel.Users" />
         </EntityContainer>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="userKey" Type="Guid" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="role" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -49,6 +69,16 @@
                 <ScalarProperty Name="language" ColumnName="language" />
                 <ScalarProperty Name="founder" ColumnName="founder" />
                 <ScalarProperty Name="isPopular" ColumnName="isPopular" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ProgrammingDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="userKey" ColumnName="userKey" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

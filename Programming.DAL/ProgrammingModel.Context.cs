@@ -26,5 +26,6 @@ namespace Programming.DAL
         }
     
         public virtual DbSet<Languages> Languages { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     }
 }
