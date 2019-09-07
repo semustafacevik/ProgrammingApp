@@ -28,9 +28,15 @@ namespace Programming.API.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, language);
         }
 
-        public Languages Post(Languages language)
-        {
-            return languagesDAL.CreateLanguage(language);
+        public HttpResponseMessage Post(Languages language)
+        {         
+            if (ModelState.IsValid)
+            {
+                var newLanguage = languagesDAL.CreateLanguage(language);
+                return Request.CreateResponse(HttpStatusCode.Created, newLanguage);
+            }
+            else
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         public Languages Put(int ID, Languages language)
