@@ -8,10 +8,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Programming.API.Security;
 using Programming.DAL;
 
 namespace Programming.API.Controllers
 {
+    [APIAuthorize(Roles = "Admin,User")]
     public class UsersController : ApiController
     {
         private ProgrammingDBEntities db = new ProgrammingDBEntities();

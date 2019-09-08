@@ -12,5 +12,10 @@ namespace Programming.DAL
         {
             return db.Users.FirstOrDefault(x => x.userKey.ToString() == apiKey);
         }
+
+        public Users GetUserByName(string name)
+        {
+            return db.Users.FirstOrDefault(x => x.name == name);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Programming.DAL;
+﻿using Programming.API.Security;
+using Programming.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Web.Http.Description;
 
 namespace Programming.API.Controllers
 {
+    [APIAuthorize(Roles = "Admin")]
     public class LanguagesController : ApiController
     {
         LanguagesDAL languagesDAL = new LanguagesDAL();
@@ -21,7 +23,6 @@ namespace Programming.API.Controllers
         */
 
         [ResponseType(typeof(IEnumerable<Languages>))]
-        [Authorize]
         public IHttpActionResult Get()
         {
             return Ok(languagesDAL.GetAllLanguages());
@@ -73,8 +74,7 @@ namespace Programming.API.Controllers
                 return Ok();
             }
         }
-
-        [Authorize]
+        
         public IHttpActionResult GetSearchByName(string name)
         {
             return Ok("Name: " + User.Identity.Name);
