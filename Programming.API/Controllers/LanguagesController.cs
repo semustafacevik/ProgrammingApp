@@ -74,10 +74,10 @@ namespace Programming.API.Controllers
             }
         }
 
-        
+        [Authorize]
         public IHttpActionResult GetSearchByName(string name)
         {
-            return Ok("Name: " + name);
+            return Ok("Name: " + User.Identity.Name);
         }
 
         public IHttpActionResult GetSearchBySurname(string surname)

@@ -15,8 +15,12 @@ namespace Programming.API.Security
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var queryString = request.RequestUri.ParseQueryString();
-            var apiKey = queryString["apiKey"];
+            //*** link
+            //var queryString = request.RequestUri.ParseQueryString();
+            //var apiKey = queryString["apiKey"];
+
+            //*** header
+            var apiKey = request.Headers.GetValues("apiKey").FirstOrDefault();
 
             UsersDAL usersDAL = new UsersDAL();
             var user = usersDAL.GetUserByApiKey(apiKey);
