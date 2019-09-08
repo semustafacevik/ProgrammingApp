@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Programming.API.Attributes;
+using Programming.API.Security;
 
 namespace Programming.API
 {
@@ -15,6 +16,7 @@ namespace Programming.API
             // Web API routes
             config.MapHttpAttributeRoutes();
             config.Filters.Add(new ApiExceptionAttribute());
+            config.MessageHandlers.Add(new APIKeyHandler());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

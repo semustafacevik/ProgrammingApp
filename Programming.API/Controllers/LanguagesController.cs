@@ -19,7 +19,9 @@ namespace Programming.API.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, languagesDAL.GetAllLanguages());
         }
         */
+
         [ResponseType(typeof(IEnumerable<Languages>))]
+        [Authorize]
         public IHttpActionResult Get()
         {
             return Ok(languagesDAL.GetAllLanguages());
@@ -52,7 +54,7 @@ namespace Programming.API.Controllers
             //id?
             if (!languagesDAL.IsThereAnyLanguage(ID))
                 return NotFound();
-            //model state
+            //model state?
             else if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             //ok
@@ -72,6 +74,7 @@ namespace Programming.API.Controllers
             }
         }
 
+        
         public IHttpActionResult GetSearchByName(string name)
         {
             return Ok("Name: " + name);
